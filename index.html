@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prueba de impresión — POS-80C</title>
+<style>
+  :root {
+    color-scheme: light;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f4f1ea;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #2b2b2b;
+    padding: 24px;
+  }
+
+  .panel {
+    max-width: 460px;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 32px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  h1 {
+    font-size: 1.3rem;
+    margin: 0 0 4px;
+  }
+
+  .subtitle {
+    color: #6b6b6b;
+    font-size: 0.9rem;
+    margin: 0 0 24px;
+  }
+
+  ol {
+    margin: 0 0 24px;
+    padding-left: 20px;
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  ol li strong {
+    background: #fff3cd;
+    padding: 0 4px;
+    border-radius: 3px;
+  }
+
+  button#print-btn {
+    display: block;
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background: #1f7a4d;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  button#print-btn:hover {
+    background: #17603c;
+  }
+
+  button#print-btn:active {
+    transform: translateY(1px);
+  }
+
+  .hint {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #999;
+    margin-top: 14px;
+  }
+
+  /* El ticket solo existe para la hoja impresa: en pantalla queda oculto */
+  #ticket {
+    display: none;
+  }
+
+  @media print {
+    @page {
+      size: 72mm auto;
+      margin: 0;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #fff;
+    }
+
+    .panel {
+      display: none;
+    }
+
+    #ticket {
+      display: block;
+      width: 72mm;
+      margin: 0;
+      padding: 3mm 3mm 8mm;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 11px;
+      line-height: 1.4;
+      color: #000;
+    }
+
+    #ticket .logo {
+      display: block;
+      width: 34mm;
+      margin: 0 auto 2mm;
+    }
+
+    #ticket .shop-name {
+      text-align: center;
+      font-size: 15px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      margin: 0 0 1mm;
+    }
+
+    #ticket .shop-sub {
+      text-align: center;
+      font-size: 10px;
+      margin: 0 0 3mm;
+    }
+
+    #ticket .divider {
+      border: none;
+      border-top: 1px dashed #000;
+      margin: 2mm 0;
+    }
+
+    #ticket .meta-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 0.5mm 0;
+    }
+
+    #ticket .item-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 1mm 0;
+    }
+
+    #ticket .item-name {
+      flex: 1;
+    }
+
+    #ticket .item-qty {
+      width: 12mm;
+      text-align: center;
+    }
+
+    #ticket .item-price {
+      width: 16mm;
+      text-align: right;
+    }
+
+    #ticket .total-row {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+      font-size: 13px;
+      margin-top: 2mm;
+    }
+
+    #ticket .footer {
+      text-align: center;
+      font-size: 10px;
+      margin-top: 4mm;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="panel">
+    <h1>Prueba de impresión — POS-80C</h1>
+    <p class="subtitle">Página estática para verificar que la impresora térmica esté bien configurada en Windows.</p>
+
+    <ol>
+      <li>Hacé clic en <strong>Imprimir prueba</strong>.</li>
+      <li>En el diálogo de impresión, elegí <strong>POS-80C</strong> como destino.</li>
+      <li>Abrí <strong>Más ajustes</strong> y poné márgenes en <strong>Ninguno</strong>, y desactivá encabezados y pies de página.</li>
+    </ol>
+
+    <button id="print-btn" type="button">Imprimir prueba</button>
+    <p class="hint">Se abrirá el diálogo nativo de impresión del navegador.</p>
+  </div>
+
+  <!-- Contenido exclusivo para @media print: simula un ticket térmico de 72mm -->
+  <div id="ticket">
+    <svg class="logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="42" r="30" fill="none" stroke="#000" stroke-width="3"/>
+      <path d="M 26 42 A 24 24 0 0 1 74 42" fill="none" stroke="#000" stroke-width="3"/>
+      <circle cx="38" cy="36" r="3" fill="#000"/>
+      <circle cx="50" cy="30" r="3" fill="#000"/>
+      <circle cx="62" cy="36" r="3" fill="#000"/>
+      <rect x="44" y="66" width="12" height="20" rx="2" fill="none" stroke="#000" stroke-width="3"/>
+      <line x1="40" y1="66" x2="60" y2="66" stroke="#000" stroke-width="3"/>
+    </svg>
+
+    <div class="shop-name">GELATO NAPOLEON</div>
+    <div class="shop-sub">Artesanal &middot; Av. Siempre Viva 742</div>
+
+    <hr class="divider">
+
+    <div class="meta-row"><span>Fecha:</span><span id="ticket-date"></span></div>
+    <div class="meta-row"><span>Folio:</span><span>PRUEBA-0001</span></div>
+    <div class="meta-row"><span>Caja:</span><span>01</span></div>
+
+    <hr class="divider">
+
+    <div class="item-row">
+      <span class="item-name">Copa 2 bochas</span>
+      <span class="item-qty">x1</span>
+      <span class="item-price">$95.00</span>
+    </div>
+
+    <hr class="divider">
+
+    <div class="total-row"><span>TOTAL</span><span>$95.00</span></div>
+
+    <div class="footer">
+      *** Ticket de prueba ***<br>
+      No válido como comprobante fiscal
+    </div>
+  </div>
+
+<script>
+  document.getElementById('print-btn').addEventListener('click', function () {
+    window.print();
+  });
+
+  document.getElementById('ticket-date').textContent = new Date().toLocaleString('es-AR');
+</script>
+
+</body>
+</html>
